@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap, catchError, retry } from 'rxjs/operators';
 import { LocalUser } from '../interfaces/local-user';
 import { StorageService } from './storage.service';
+import { Credential } from '../interfaces/credential';
 
 @Injectable({
   providedIn: 'root'

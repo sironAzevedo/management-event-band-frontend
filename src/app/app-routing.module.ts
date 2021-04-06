@@ -14,6 +14,26 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'list',
+    loadChildren: () => import('./pages/band/list/list.module').then( m => m.ListPageModule)
+  },
+  {
+    path: 'detail',
+    loadChildren: () => import('./pages/band/detail/detail.module').then( m => m.DetailPageModule)
+  },
+  {
+    path: 'pessoa-fisica',
+    loadChildren: () => import('./pages/user/cadastro/pessoa-fisica/pessoa-fisica.module').then( m => m.PessoaFisicaPageModule)
+  },
+  {
+    path: 'pessoa-juridica',
+    loadChildren: () => import('./pages/user/cadastro/pessoa-juridica/pessoa-juridica.module').then( m => m.PessoaJuridicaPageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/user/profile/profile.module').then( m => m.ProfilePageModule)
   }
  
 ];
