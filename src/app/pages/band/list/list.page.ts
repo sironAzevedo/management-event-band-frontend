@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { StorageService } from './../../../services/storage.service';
 import { BandService } from './../../../services/band.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,27 +13,41 @@ export class ListPage implements OnInit {
 
   bands: Band[] = [];
   email: string = '';
+  bucketUrl: string;
 
   constructor(
     private bandService: BandService,
     private storageService: StorageService,
+    private router: Router,
   ) { 
     this.email = this.storageService.getLocalUser().email;
   }
 
   ngOnInit() {
+    this.bucketUrl = "/assets/imgs/band.jpg";
     this.loadBands();
-    console.log(this.bands);
   }
 
-  loadBands() {
-    this.bandService.listBandByUser(this.email).subscribe(
+  async loadBands() {
+    await this.bandService.listBandByUser(this.email).subscribe(
       response => {
-        console.log(response);
-        //this.bands = response;
+        this.bands = response;
+        console.log(this.bands);
       },
       error => { }
     );
+  }
+
+  addBand() {
+    
+  }
+
+  detail(band: Band) {
+
+  }
+
+  delete(band: Band) {
+
   }
 
 }

@@ -1,8 +1,9 @@
 import { API_CONFIG } from './../../config/api.config';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { User } from '../interfaces/user';
+import { retry, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,12 @@ export class UserService {
   }
 
   findByEmail(email: string): Observable<User> {
-    return this.http.get<User>(`${API_CONFIG.baseUrl}/v1/users/by-email?email=${email}`);
+    return this.http.get<User>(`${API_CONFIG.baseUrl}/v1/users/by-email?email=${email}`).pipe(
+      retry(3),
+      catchError(err => {
+        return throwError(err);
+      })
+    );
   }
 
   delete(id: number): Observable<any> {

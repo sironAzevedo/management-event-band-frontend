@@ -1,13 +1,13 @@
-import { API_CONFIG } from './../../../config/api.config';
+import { API_CONFIG } from '../../config/api.config';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { StorageService } from '../storage.service';
+import { StorageService } from '../services/storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthInterceptorService implements HttpInterceptor {
+export class AuthInterceptor implements HttpInterceptor {
   constructor(public storage: StorageService) {}
 
   intercept(
@@ -32,6 +32,6 @@ export class AuthInterceptorService implements HttpInterceptor {
 
 export const AuthInterceptorProvider = {
   provide: HTTP_INTERCEPTORS,
-  useClass: AuthInterceptorService,
+  useClass: AuthInterceptor,
   multi: true,
 };

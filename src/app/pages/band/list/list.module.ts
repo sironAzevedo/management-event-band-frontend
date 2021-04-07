@@ -1,3 +1,4 @@
+import { ListSkeletonPage } from './../../components/list-skeleton/list-skeleton.page';
 import { HeaderPage } from './../../components/header/header.page';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -16,6 +17,6 @@ import { ListPage } from './list.page';
     IonicModule,
     ListPageRoutingModule
   ],
-  declarations: [ListPage, HeaderPage]
+  declarations: [ListPage, HeaderPage, ListSkeletonPage]
 })
 export class ListPageModule {}

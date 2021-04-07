@@ -1,9 +1,10 @@
+import { retry, catchError } from 'rxjs/operators';
 import { BandMember } from './../interfaces/band-member';
 import { API_CONFIG } from './../../config/api.config';
 import { Band } from './../interfaces/band';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError  } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,12 @@ export class BandService {
   }
 
   listBandByUser(email: string): Observable<Band[]> {
-    return this.http.get<Band[]>(`${API_CONFIG.baseUrl}/v1/bands/by-user?email_member=${email}`);
+    return this.http.get<Band[]>(`${API_CONFIG.baseUrl}/v1/bands/by-user?email_member=${email}`).pipe(
+      retry(3),
+      catchError(err => {
+        return throwError(err);
+      })
+    );
   }
 
   associateMember(band_code: number, email_member: string, leader: boolean, instrument_code?: number, voice_code?: number): Observable<Band> {
@@ -35,10 +41,20 @@ export class BandService {
   }
 
   find(band_code: number): Observable<Band> {
-    return this.http.get<Band>(`${API_CONFIG.baseUrl}/v1/bands/detail?code=${band_code}`);
+    return this.http.get<Band>(`${API_CONFIG.baseUrl}/v1/bands/detail?code=${band_code}`).pipe(
+      retry(3),
+      catchError(err => {
+        return throwError(err);
+      })
+    );
   }
 
   members(band_code: number): Observable<BandMember> {
-    return this.http.get<BandMember>(`${API_CONFIG.baseUrl}/v1/bands/members?band_code=${band_code}`);
+    return this.http.get<BandMember>(`${API_CONFIG.baseUrl}/v1/bands/members?band_code=${band_code}`).pipe(
+      retry(3),
+      catchError(err => {
+        return throwError(err);
+      })
+    );
   }
 }
