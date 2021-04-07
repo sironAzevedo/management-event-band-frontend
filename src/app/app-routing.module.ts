@@ -20,14 +20,10 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
-    path: 'bandas',
+    path: 'bands',
     loadChildren: () => import('./pages/band/list/list.module').then( m => m.ListPageModule),
     canActivate: [AuthGuardService]
-  },
-  {
-    path: 'detail',
-    loadChildren: () => import('./pages/band/detail/detail.module').then( m => m.DetailPageModule)
-  },
+  },  
   {
     path: 'pf',
     loadChildren: () => import('./pages/user/cadastro/pessoa-fisica/pessoa-fisica.module').then( m => m.PessoaFisicaPageModule)

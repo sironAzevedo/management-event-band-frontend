@@ -14,7 +14,7 @@ export class AppComponent {
   public appPages = [
     {
       title: 'Bandas',
-      url: '/bandas',
+      url: '/bands',
       icon: 'radio-outline'
     },
     {

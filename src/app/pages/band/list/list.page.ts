@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { StorageService } from './../../../services/storage.service';
 import { BandService } from './../../../services/band.service';
 import { Component, OnInit } from '@angular/core';
@@ -42,8 +42,13 @@ export class ListPage implements OnInit {
     
   }
 
-  detail(band: Band) {
-
+  async detail(band: Band) {
+    const params: NavigationExtras = {
+      state: {
+        band: band.codigo
+      }
+    };
+    await this.router.navigate(['/bands/detail'], params);
   }
 
   delete(band: Band) {
