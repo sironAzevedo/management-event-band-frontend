@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListPage implements OnInit {
 
+  titulo: string = 'Bandas';
+
   constructor() { }
 
   ngOnInit() {

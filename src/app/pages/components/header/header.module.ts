@@ -1,21 +1,20 @@
-import { HeaderPage } from './../../components/header/header.page';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ListPageRoutingModule } from './list-routing.module';
+import { HeaderPageRoutingModule } from './header-routing.module';
 
-import { ListPage } from './list.page';
+import { HeaderPage } from './header.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ListPageRoutingModule
+    HeaderPageRoutingModule
   ],
-  declarations: [ListPage, HeaderPage]
+  declarations: [HeaderPage]
 })
-export class ListPageModule {}
+export class HeaderPageModule {}
