@@ -8,10 +8,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class HeaderPage implements OnInit {
 
   @Input() titulo: string;
+  @Input() defaultHref: string = '/';
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
+    console.log('titulo is:', this.titulo);
+    console.log('defaultHref is:', this.defaultHref);   
   }
 
 }

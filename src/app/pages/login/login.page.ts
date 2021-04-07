@@ -1,7 +1,7 @@
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoadingController, NavController } from '@ionic/angular';
+import { LoadingController, MenuController, NavController } from '@ionic/angular';
 import { Credential } from 'src/app/interfaces/credential';
 import { finalize } from 'rxjs/operators';
 
@@ -18,6 +18,7 @@ export class LoginPage implements OnInit {
   isInValid: boolean;
 
   constructor(
+    public menu: MenuController,
     public router: NavController,
     public formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
@@ -26,6 +27,19 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.validFields();
+  }
+
+  ionViewWillEnter() {
+    this.menu.get().then((menu: HTMLIonMenuElement) => {
+      this.menu.enable(false)
+    });
+  }
+
+  ionViewDidLeave() {
+    this.menu.get().then((menu: HTMLIonMenuElement) => {
+      this.menu.enable(true)
+      menu.swipeGesture = true;
+    });
   }
 
   async login() {

@@ -7,6 +7,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthInterceptorProvider } from './services/interceptors/auth-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,7 +18,10 @@ import { AppComponent } from './app.component';
       AppRoutingModule,
       HttpClientModule
     ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    AuthInterceptorProvider,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

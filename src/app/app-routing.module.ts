@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuardService } from './services/auth-guard.service';
+import { LoggedGuardService } from './services/logged-guard.service';
 
 const routes: Routes = [
   {
@@ -9,15 +11,18 @@ const routes: Routes = [
   },   
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
+    canActivate: [LoggedGuardService]
   },
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
+    canActivate: [AuthGuardService]
   },
   {
     path: 'bandas',
-    loadChildren: () => import('./pages/band/list/list.module').then( m => m.ListPageModule)
+    loadChildren: () => import('./pages/band/list/list.module').then( m => m.ListPageModule),
+    canActivate: [AuthGuardService]
   },
   {
     path: 'detail',
@@ -32,8 +37,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/user/cadastro/pessoa-juridica/pessoa-juridica.module').then( m => m.PessoaJuridicaPageModule)
   },
   {
-    path: 'profile/:id',
-    loadChildren: () => import('./pages/user/profile/profile.module').then( m => m.ProfilePageModule)
+    path: 'profile',
+    loadChildren: () => import('./pages/user/profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'logout',
+    loadChildren: () => import('./pages/user/logout/logout.module').then( m => m.LogoutPageModule)
   }
  
 ];

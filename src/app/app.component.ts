@@ -19,7 +19,7 @@ export class AppComponent {
     },
     {
       title: 'Profile',
-      url: '/cadastro',
+      url: '/profile',
       icon: 'person-outline'
     },
     {
