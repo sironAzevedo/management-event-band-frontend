@@ -25,6 +25,9 @@ export class ListPage implements OnInit {
 
   ngOnInit() {
     this.bucketUrl = "/assets/imgs/band.jpg";
+  }
+
+  ionViewWillEnter() {
     this.loadBands();
   }
 
@@ -45,7 +48,8 @@ export class ListPage implements OnInit {
   async detail(band: Band) {
     const params: NavigationExtras = {
       state: {
-        band: band.codigo
+        band: band.codigo,
+        name: band.name
       }
     };
     await this.router.navigate(['/bands/detail'], params);

@@ -1,5 +1,54 @@
-<app-header [titulo]="'Bandas'" [defaultHref]="'/home'"></app-header>
+<app-header [titulo]="titulo" [defaultHref]="'/home'"></app-header>
 
 <ion-content>
+  <div class="searchbar">
+    <ion-searchbar></ion-searchbar>
+  </div>
 
+  <div class="span-text">
+    <span> Membros Associados na Banda</span>
+  </div>
+
+  <div>
+    <ion-list>
+      <app-list-skeleton [items]="members"></app-list-skeleton>
+        <ion-item *ngFor="let item of members">
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <ion-label>{{ item.name }}</ion-label>
+                    </ion-col>
+                    <ion-col *ngIf="item.voiceName">
+                        <ion-label>
+                            <ion-badge color="primary" slot="start">{{ item.voiceName }}</ion-badge>
+                        </ion-label>
+                    </ion-col>
+                    <ion-col *ngIf="item.intrumentName">
+                        <ion-label>
+                            <ion-badge color="primary" slot="start">{{ item.intrumentName }}</ion-badge>
+                        </ion-label>
+                    </ion-col>
+                    <ion-col *ngIf="(item.leader === 'S')">
+                        <ion-label class="p-leader">
+                            <ion-icon slot="end" name="musical-note-outline"></ion-icon>
+                            <span>Lider</span>
+                        </ion-label>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+
+          <div class="button-menu">
+            <button  color="primary"  [matMenuTriggerFor]="menu" (click)="$event.preventDefault()" >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" id="btn-menu" xPosition="before" overlapTrigger="false">               
+              <button id="btn-delete" mat-menu-item (click)="deletMember(item)">
+                <mat-icon>delete</mat-icon>
+                <span>Desassociar</span>
+              </button>
+            </mat-menu>
+          </div>
+        </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

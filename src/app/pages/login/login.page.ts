@@ -1,3 +1,4 @@
+import { LoaderService } from './../../services/loader.service';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +14,6 @@ import { finalize } from 'rxjs/operators';
 export class LoginPage implements OnInit {
 
   formGroup: FormGroup;
-  private loading: any;
   isValid: boolean;
   isInValid: boolean;
 
@@ -21,8 +21,8 @@ export class LoginPage implements OnInit {
     public menu: MenuController,
     public router: NavController,
     public formBuilder: FormBuilder,
-    private loadingCtrl: LoadingController,
-    private authService: AuthService
+    private authService: AuthService,
+    private ionLoader: LoaderService
   ) { }
 
   ngOnInit() {
@@ -49,11 +49,9 @@ export class LoginPage implements OnInit {
       password: this.formGroup.value.senha
     }
 
-    await this.presentLoading();
-    console.log(user)
-    
+    await this.ionLoader.showLoader();    
     this.authService.authenticate(user)
-      .pipe(finalize(() => this.loading.dismiss()))
+      .pipe(finalize(() => this.ionLoader.hideLoader()))
       .subscribe(
         () => {
           this.router.navigateRoot('/home');
@@ -96,15 +94,4 @@ export class LoginPage implements OnInit {
   get isFieldInValid() {
     return this.isInValid;
   }
-
-  async presentLoading() {
-    this.loading = await this.loadingCtrl.create({
-      spinner: 'bubbles',
-      message: 'Aguarde...'
-    });
-
-    return this.loading.present();
-  }
-
-
 }

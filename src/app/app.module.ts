@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
 import { ErrorInterceptorProvider } from './interceptors/error-interceptor';
 import { SheredComponentModule } from './pages/components/components.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,7 @@ import { SheredComponentModule } from './pages/components/components.module';
       AppRoutingModule,
       HttpClientModule,
       SheredComponentModule,
+      BrowserAnimationsModule,
     ],
   providers: [
     AuthInterceptorProvider,

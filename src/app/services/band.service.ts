@@ -5,6 +5,7 @@ import { Band } from './../interfaces/band';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError  } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -32,12 +33,12 @@ export class BandService {
     );
   }
 
-  associateMember(band_code: number, email_member: string, leader: boolean, instrument_code?: number, voice_code?: number): Observable<Band> {
-    return this.http.get<Band>(`${API_CONFIG.baseUrl}/v1/bands/associate-member?band_code=${band_code}&email_member=${email_member}&leader=${leader}&instrument_code=${instrument_code}&voice_code=${voice_code}`);
+  associateMember(band_code: number, email_member: string, leader: boolean, instrument_code?: number, voice_code?: number): Observable<any> {
+    return this.http.put<any>(`${API_CONFIG.baseUrl}/v1/bands/associate-member?band_code=${band_code}&email_member=${email_member}&leader=${leader}&instrument_code=${instrument_code}&voice_code=${voice_code}`, null);
   }
 
-  disassociateMember(band_code: number, email_member: string): Observable<Band> {
-    return this.http.get<Band>(`${API_CONFIG.baseUrl}/v1/bands/associate-member?band_code=${band_code}&email_member=${email_member}`);
+  disassociateMember(band_code: number, email_member: string): Observable<any> {
+    return this.http.delete<any>(`${API_CONFIG.baseUrl}/v1/bands/disassociate-member?band_code=${band_code}&email_member=${email_member}`);
   }
 
   find(band_code: number): Observable<Band> {
@@ -49,12 +50,21 @@ export class BandService {
     );
   }
 
-  members(band_code: number): Observable<BandMember> {
-    return this.http.get<BandMember>(`${API_CONFIG.baseUrl}/v1/bands/members?band_code=${band_code}`).pipe(
+  members(band_code: number): Observable<BandMember[]> {
+    return this.http.get<BandMember[]>(`${API_CONFIG.baseUrl}/v1/bands/members?band_code=${band_code}`).pipe(
       retry(3),
       catchError(err => {
         return throwError(err);
       })
     );
+  }
+
+  private _listners = new Subject<any>();
+  listen(): Observable<any> {
+    return this._listners.asObservable();
+  }
+
+  filter(value: number) {
+    this._listners.next(value);
   }
 }

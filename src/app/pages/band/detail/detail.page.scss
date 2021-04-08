@@ -1,0 +1,48 @@
+.searchbar {
+    margin: 5px 0px 5px 0px;
+}
+
+.span-text {
+    background: #3880FF;
+    margin: 0px 0px 0px 0px;
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+}
+
+ion-item {
+    .p-leader {
+        ion-icon {
+            font-size: 1rem;
+        }
+        span {
+            font-weight: 500;
+            font-size: 1rem;
+            color: red;
+        }
+    }
+
+
+    .item {
+        width: 100vw;
+        span {
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .button-menu {
+        margin: 0px -4px;
+
+        button {
+            background: white;
+        }
+    }
+}
