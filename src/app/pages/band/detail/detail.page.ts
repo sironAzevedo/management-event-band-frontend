@@ -4,7 +4,7 @@ import { BandMember } from './../../../interfaces/band-member';
 import { BandService } from './../../../services/band.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, MenuController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -18,24 +18,38 @@ export class DetailPage implements OnInit {
   bandId: number = 2;
   members: BandMember[] = [];
 
+  sliderConfig = {
+    spaceBetween: 10,
+    centeredSlides: true,
+    slidesPerView: 1.2
+  }
+
   constructor(
     public router: Router,
     public routerNav: NavController,
     private bandService: BandService,
     private ionLoader: LoaderService,
     private alertCtrl: AlertController,
-    private toasService: ToastService
+    private toasService: ToastService,
+    public menu: MenuController
   ) { 
+
+    this.menu.get().then((menu: HTMLIonMenuElement) => {
+      this.menu.enable(false)
+    });
+
+
     this.bandService.listen().subscribe( (r:any) => {
       this.bandService.members(r).subscribe(res => {
         this.members = res;
       }),
         error => { }
-    })
+    });
   }
 
   ngOnInit() {
-    this.load();
+    //this.load();
+    this.getMembers(this.bandId);
   }
 
   async load() {
@@ -87,6 +101,10 @@ export class DetailPage implements OnInit {
     });
 
     alert.present();
+  }
+
+  addMember() {
+
   }
 
 }

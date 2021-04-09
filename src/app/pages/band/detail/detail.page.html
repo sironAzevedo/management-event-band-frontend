@@ -1,12 +1,39 @@
 <app-header [titulo]="titulo" [defaultHref]="'/home'"></app-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
   <div class="searchbar">
     <ion-searchbar></ion-searchbar>
   </div>
 
-  <div class="span-text">
-    <span> Membros Associados na Banda</span>
+  <div class="style-slide">
+    <ion-slides [options]="sliderConfig" class="ipn-margin-top">
+      <ion-slide *ngFor="let item of members">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              <img src="https://via.placeholder.com/150.png?text=My+photo" [alt]="item.name">
+              <span>{{ item.name }}</span>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- <span>
+              {{ item.voiceName }}
+              {{ item.intrumentName }}
+            </span> -->
+
+
+            <mat-radio-group class="radio-group" >
+              <mat-radio-button *ngFor="let item of [0, 1]" [value]="item">
+                  {{item}}
+              </mat-radio-button>
+           </mat-radio-group>
+          </ion-card-content>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+    <ion-button (click)="addMember()" expand="full" shape="round">
+      Associar membro
+    </ion-button>
   </div>
 
   <div>

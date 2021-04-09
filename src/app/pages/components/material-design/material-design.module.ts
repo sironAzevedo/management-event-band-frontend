@@ -19,6 +19,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 
@@ -42,6 +43,7 @@ import { MatBadgeModule } from '@angular/material/badge';
       MatNativeDateModule,
       MatGridListModule,
       MatDialogModule,
+      MatRadioModule,
       MatBadgeModule
       /*MatAutocompleteModule,
       MatLineModule
@@ -51,7 +53,6 @@ import { MatBadgeModule } from '@angular/material/badge';
       MatPaginatorModule,
       MatProgressBarModule,
       MatProgressSpinnerModule,
-      MatRadioModule,
       MatRippleModule,
       MatSliderModule,
       MatSlideToggleModule,
@@ -78,6 +79,7 @@ import { MatBadgeModule } from '@angular/material/badge';
       MatNativeDateModule,
       MatGridListModule,
       MatDialogModule,
+      MatRadioModule,
       MatBadgeModule
       /*MatAutocompleteModule,
       MatLineModule
@@ -87,7 +89,6 @@ import { MatBadgeModule } from '@angular/material/badge';
       MatPaginatorModule,
       MatProgressBarModule,
       MatProgressSpinnerModule,
-      MatRadioModule,
       MatRippleModule,
       MatSliderModule,
       MatSlideToggleModule,
