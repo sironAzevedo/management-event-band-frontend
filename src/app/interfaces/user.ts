@@ -1,3 +1,5 @@
+import { Voice } from './voice';
+import { Instrument } from './instrument';
 import { Address } from './address';
 export interface User {
     codigo?: string;
@@ -10,5 +12,8 @@ export interface User {
     typeUser: string;
     socialReason?: string;
     chavePj?: string;
-    address?: Address
+    address?: Address;
+    instruments?: Instrument[];
+    voices: Voice[]
+
 }

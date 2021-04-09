@@ -5,9 +5,9 @@
     <ion-searchbar></ion-searchbar>
   </div>
 
-  <div class="style-slide">
+  <div>
     <ion-slides [options]="sliderConfig" class="ipn-margin-top">
-      <ion-slide *ngFor="let item of members">
+      <ion-slide *ngFor="let item of users">
         <ion-card>
           <ion-card-header>
             <ion-card-title>
@@ -16,24 +16,21 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <!-- <span>
-              {{ item.voiceName }}
-              {{ item.intrumentName }}
-            </span> -->
-
-
             <mat-radio-group class="radio-group" >
-              <mat-radio-button *ngFor="let item of [0, 1]" [value]="item">
-                  {{item}}
+              <mat-radio-button *ngFor="let instrument of item.instruments" [value]="instrument.codigo">
+                {{instrument.name}}
               </mat-radio-button>
-           </mat-radio-group>
+              <mat-radio-button *ngFor="let voice of item.voices" [value]="voice.codigo">
+                {{voice.name}}
+              </mat-radio-button>
+           </mat-radio-group> 
           </ion-card-content>
+          <ion-button (click)="addMember(item, instrument)" expand="full" shape="round">
+            Associar membro
+          </ion-button>
         </ion-card>
       </ion-slide>
     </ion-slides>
-    <ion-button (click)="addMember()" expand="full" shape="round">
-      Associar membro
-    </ion-button>
   </div>
 
   <div>

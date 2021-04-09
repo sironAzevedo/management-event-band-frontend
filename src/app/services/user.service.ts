@@ -36,10 +36,14 @@ export class UserService {
   }
 
   instrument(id: number, instruments: number): Observable<any> {
-    return this.http.get<any>(`${API_CONFIG.baseUrl}/v1/users/instrument?user_code=${id}&instruments=${instruments}`);
+    return this.http.put<any>(`${API_CONFIG.baseUrl}/v1/users/instrument?user_code=${id}&instruments=${instruments}`, null);
   }
 
   voice(id: number, voice: number): Observable<any> {
-    return this.http.get<any>(`${API_CONFIG.baseUrl}/v1/users/voice?user_code=${id}&voice=${voice}`);
+    return this.http.put<any>(`${API_CONFIG.baseUrl}/v1/users/voice?user_code=${id}&voice=${voice}`, null);
+  }
+
+  searchLike(like: string): Observable<User[]> {
+    return this.http.get<User[]>(`${API_CONFIG.baseUrl}/v1/users/by-like?like=${like}`);
   }
 }

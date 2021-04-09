@@ -1,3 +1,6 @@
+import { Instrument } from './../../../interfaces/instrument';
+import { User } from './../../../interfaces/user';
+import { UserService } from './../../../services/user.service';
 import { ToastService } from './../../../services/toast.service';
 import { LoaderService } from './../../../services/loader.service';
 import { BandMember } from './../../../interfaces/band-member';
@@ -17,6 +20,7 @@ export class DetailPage implements OnInit {
   titulo: string = 'Nome da Banda';
   bandId: number = 2;
   members: BandMember[] = [];
+  users: User[] = [];
 
   sliderConfig = {
     spaceBetween: 10,
@@ -31,7 +35,8 @@ export class DetailPage implements OnInit {
     private ionLoader: LoaderService,
     private alertCtrl: AlertController,
     private toasService: ToastService,
-    public menu: MenuController
+    public menu: MenuController,
+    public userService: UserService
   ) { 
 
     this.menu.get().then((menu: HTMLIonMenuElement) => {
@@ -50,6 +55,7 @@ export class DetailPage implements OnInit {
   ngOnInit() {
     //this.load();
     this.getMembers(this.bandId);
+    this.searchLike();
   }
 
   async load() {
@@ -103,8 +109,17 @@ export class DetailPage implements OnInit {
     alert.present();
   }
 
-  addMember() {
+  addMember(user: User, instrument: Instrument) {
+    console.log("user selected is: " + user.email);
+    console.log("instrument selected is: " + instrument.codigo);
+  }
 
+  searchLike() {
+    this.userService.searchLike('e').subscribe(res => {
+      console.log(res);
+      this.users = res;
+    }),
+      error => { }
   }
 
 }
