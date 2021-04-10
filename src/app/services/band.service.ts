@@ -34,7 +34,17 @@ export class BandService {
   }
 
   associateMember(band_code: number, email_member: string, leader: boolean, instrument_code?: number, voice_code?: number): Observable<any> {
-    return this.http.put<any>(`${API_CONFIG.baseUrl}/v1/bands/associate-member?band_code=${band_code}&email_member=${email_member}&leader=${leader}&instrument_code=${instrument_code}&voice_code=${voice_code}`, null);
+    
+    let params: string = `band_code=${band_code}&email_member=${email_member}&leader=${leader}`;
+    if(instrument_code) {
+      params = params.concat(`&instrument_code=${instrument_code}`);
+    }
+
+    if(voice_code) {
+      params = params.concat(`&voice_code=${voice_code}`);
+    }
+    
+    return this.http.put<any>(`${API_CONFIG.baseUrl}/v1/bands/associate-member?${params}`, null);
   }
 
   disassociateMember(band_code: number, email_member: string): Observable<any> {

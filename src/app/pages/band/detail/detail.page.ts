@@ -25,14 +25,18 @@ export class DetailPage implements OnInit {
   bandId: number = 2;
   members: BandMember[] = [];
   users: User[] = [];
-  instrumentId: number = null;
-  voiceId: number = null;
+  
+  userSelected: string = null;
+  instrumentSelected: any = null;
+  voiceSelected: any = null;
+  buttonDisable: boolean = true;
+  slideSelected: number = 0;
+  selectedValue: Object;
 
   @ViewChild(IonSlides) protected slides: IonSlides;
   @ViewChild('instrument') protected radioInstrument: MatRadioButton;
 
-  slideSelected: number = 0;
-  selectedValue: Object;
+  
 
   sliderConfig = {
     spaceBetween: 10,
@@ -98,6 +102,59 @@ export class DetailPage implements OnInit {
       error => { }
   }
 
+  searchLike() {
+    this.userService.searchLike('e').subscribe(res => {
+      console.log(res);
+      this.users = res;
+    }),
+      error => { }
+  }
+
+  async addMember() {
+    let leader: boolean = false;
+    const alert = await this.alertCtrl.create({       
+      message: 'Deseja adiconar este membro como lider da banda?',
+      buttons: [
+        {
+          text: 'Não',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            this.associateMember(leader);
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {             
+            leader = true
+            this.associateMember(leader);
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
+  associateMember(leader: boolean) {
+    this.ionLoader.showLoader();
+    this.bandService.associateMember(this.bandId, this.userSelected, leader, this.instrumentSelected, this.voiceSelected)
+    .pipe(finalize(() => this.ionLoader.hideLoader()))
+    .subscribe(() => {
+      let msg = 'Membro desassociado com sucesso';
+      this.toasService.showToast(msg, 2000, 'success').then(() => {               
+        this.bandService.filter(this.bandId);
+      });
+    }),
+      error => { }
+
+    /* console.log("A banda selected is: " + this.bandId);
+    console.log("user selected is: " + this.userSelected);
+    console.log("instrument selected is: " + this.instrumentSelected);
+    console.log("Este membro é lider: " + leader);
+    console.log("voice selected is: " + this.voiceSelected); */
+  }
+
   async deletMember(member: BandMember) {
     const alert = await this.alertCtrl.create({
       header: 'Deletar?',
@@ -114,42 +171,28 @@ export class DetailPage implements OnInit {
             this.bandService.disassociateMember(this.bandId, member.email)
             .pipe(finalize(() => this.ionLoader.hideLoader()))
             .subscribe(() => {
-              let msg = 'Membro desassociado com sucesso';
+              let msg = 'Membro associado com sucesso';
               this.toasService.showToast(msg, 2000, 'success').then(() => {               
-                this.bandService.filter(this.bandId);
+                /* this.bandService.filter(this.bandId); */
+                this.getMembers(this.bandId);
               });
             }),
             error => { }
           }
         }
-
       ]
     });
 
     alert.present();
   }
 
-  addMember(user: User) {
-    console.log("A banda selected is: " +this.bandId);
-    console.log("user selected is: " + user.email);
-    console.log("instrument selected is: " + this.instrumentId);
-    console.log("voice selected is: " + this.voiceId);
-  }
-
-  searchLike() {
-    this.userService.searchLike('e').subscribe(res => {
-      console.log(res);
-      this.users = res;
-    }),
-      error => { }
-  }
-
-  protected radioChange($event: MatRadioChange) {
-    console.log($event.source.name, $event.value);
+  protected radioChange($event: MatRadioChange, user: User) {
+    this.buttonDisable = false;
+    this.userSelected = user.email;
     if(this.radioInstrument.checked) {
-      this.instrumentId = $event.value;
+      this.instrumentSelected = $event.value;
     } else {
-      this.voiceId = $event.value;
+      this.voiceSelected = $event.value;
     }
 }
 
@@ -157,7 +200,10 @@ export class DetailPage implements OnInit {
     let currentIndex = await this.slides.getActiveIndex();
     if(this.slideSelected != currentIndex) {
       this.slideSelected = currentIndex;
-      this.selectedValue = null;    
+      this.selectedValue = null; 
+      this.instrumentSelected = null;
+      this.voiceSelected = null;
+      this.buttonDisable = true;   
     }
   }
 }

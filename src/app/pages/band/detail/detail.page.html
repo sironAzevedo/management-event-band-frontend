@@ -1,12 +1,12 @@
-<app-header [titulo]="titulo" [defaultHref]="'/home'"></app-header>
+<app-header [titulo]="titulo" [defaultHref]="'/bands'"></app-header>
 
 <ion-content [fullscreen]="true">
   <div class="searchbar">
     <ion-searchbar></ion-searchbar>
   </div>
 
-  <div>
-    <ion-slides [options]="sliderConfig" class="ipn-margin-top" (ionSlideDidChange)="slideChanged()">
+  <div class="list-members">
+    <ion-slides [options]="sliderConfig" class="ipn-margin-top" (ionSlideDrag)="slideChanged()">
       <ion-slide *ngFor="let item of users">
         <ion-card>
           <ion-card-header>
@@ -16,7 +16,7 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <mat-radio-group class="radio-group" [(ngModel)]="selectedValue" (change)="radioChange($event)">
+            <mat-radio-group class="radio-group" [(ngModel)]="selectedValue" (change)="radioChange($event, item)">
               <mat-radio-button #instrument *ngFor="let instrument of item.instruments" [value]="instrument.codigo">
                 {{instrument.name}}
               </mat-radio-button>
@@ -25,12 +25,12 @@
               </mat-radio-button>
            </mat-radio-group> 
           </ion-card-content>
-          <ion-button (click)="addMember(item)" expand="full" shape="round">
-            Associar membro
-          </ion-button>
         </ion-card>
       </ion-slide>
     </ion-slides>
+    <ion-button (click)="addMember()" expand="full" shape="round" [disabled]="buttonDisable">
+      Associar membro
+    </ion-button>
   </div>
 
   <div>
