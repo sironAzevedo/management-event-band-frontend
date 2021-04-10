@@ -24,14 +24,15 @@ export class DetailPage implements OnInit {
   titulo: string = 'Nome da Banda';
   bandId: number = 2;
   members: BandMember[] = [];
-  users: User[] = [];
-  
+
+  users: User[] = [];  
   userSelected: string = null;
   instrumentSelected: any = null;
   voiceSelected: any = null;
   buttonDisable: boolean = true;
   slideSelected: number = 0;
   selectedValue: Object;
+  queryText: string;
 
   @ViewChild(IonSlides) protected slides: IonSlides;
   @ViewChild('instrument') protected radioInstrument: MatRadioButton;
@@ -54,6 +55,9 @@ export class DetailPage implements OnInit {
     public menu: MenuController,
     public userService: UserService
   ) {
+
+    this.queryText = '';
+
     this.bandService.listen().subscribe( (r:any) => {
       this.bandService.members(r).subscribe(res => {
         this.members = res;
@@ -65,7 +69,7 @@ export class DetailPage implements OnInit {
   ngOnInit() {
     //this.load();
     this.getMembers(this.bandId);
-    this.searchLike();
+    /* this.searchLike(); */
   }
 
   ionViewWillEnter() {
@@ -102,16 +106,20 @@ export class DetailPage implements OnInit {
       error => { }
   }
 
-  searchLike() {
-    this.userService.searchLike('e').subscribe(res => {
-      console.log(res);
-      this.users = res;
-    }),
-      error => { }
+  searchLike(user: any) {
+    let val = user.target.value;
+    if(val && val.trim() != '') {
+      this.userService.searchLike(val).subscribe(res => {
+        console.log(res);
+        this.users = res;
+      }),
+        error => { }
+    } else {
+      this.users = [];
+    }
   }
 
   async addMember() {
-    let leader: boolean = false;
     const alert = await this.alertCtrl.create({       
       message: 'Deseja adiconar este membro como lider da banda?',
       buttons: [
@@ -120,14 +128,13 @@ export class DetailPage implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
-            this.associateMember(leader);
+            this.associateMember(false);
           }
         },
         {
           text: 'Sim',
-          handler: () => {             
-            leader = true
-            this.associateMember(leader);
+          handler: () => {
+            this.associateMember(true);
           }
         }
       ]
@@ -147,12 +154,6 @@ export class DetailPage implements OnInit {
       });
     }),
       error => { }
-
-    /* console.log("A banda selected is: " + this.bandId);
-    console.log("user selected is: " + this.userSelected);
-    console.log("instrument selected is: " + this.instrumentSelected);
-    console.log("Este membro é lider: " + leader);
-    console.log("voice selected is: " + this.voiceSelected); */
   }
 
   async deletMember(member: BandMember) {
@@ -203,6 +204,7 @@ export class DetailPage implements OnInit {
       this.selectedValue = null; 
       this.instrumentSelected = null;
       this.voiceSelected = null;
+      this.userSelected = null;
       this.buttonDisable = true;   
     }
   }

@@ -2,10 +2,14 @@
 
 <ion-content [fullscreen]="true">
   <div class="searchbar">
-    <ion-searchbar></ion-searchbar>
+    <ion-searchbar [(ngModel)]="queryText"
+                   (ionInput) = "searchLike($event)"
+                   clearInput>
+  
+  </ion-searchbar>
   </div>
 
-  <div class="list-members">
+  <div class="list-members" *ngIf="users.length > 0">
     <ion-slides [options]="sliderConfig" class="ipn-margin-top" (ionSlideDrag)="slideChanged()">
       <ion-slide *ngFor="let item of users">
         <ion-card>
