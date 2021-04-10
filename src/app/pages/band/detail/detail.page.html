@@ -6,7 +6,7 @@
   </div>
 
   <div>
-    <ion-slides [options]="sliderConfig" class="ipn-margin-top">
+    <ion-slides [options]="sliderConfig" class="ipn-margin-top" (ionSlideDidChange)="slideChanged()">
       <ion-slide *ngFor="let item of users">
         <ion-card>
           <ion-card-header>
@@ -16,8 +16,8 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <mat-radio-group class="radio-group" >
-              <mat-radio-button *ngFor="let instrument of item.instruments" [value]="instrument.codigo">
+            <mat-radio-group class="radio-group" [(ngModel)]="selectedValue" (change)="radioChange($event)">
+              <mat-radio-button #instrument *ngFor="let instrument of item.instruments" [value]="instrument.codigo">
                 {{instrument.name}}
               </mat-radio-button>
               <mat-radio-button *ngFor="let voice of item.voices" [value]="voice.codigo">
@@ -25,7 +25,7 @@
               </mat-radio-button>
            </mat-radio-group> 
           </ion-card-content>
-          <ion-button (click)="addMember(item, instrument)" expand="full" shape="round">
+          <ion-button (click)="addMember(item)" expand="full" shape="round">
             Associar membro
           </ion-button>
         </ion-card>

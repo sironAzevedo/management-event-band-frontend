@@ -6,9 +6,13 @@ import { LoaderService } from './../../../services/loader.service';
 import { BandMember } from './../../../interfaces/band-member';
 import { BandService } from './../../../services/band.service';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AlertController, NavController, MenuController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
+import {IonSlides} from '@ionic/angular';
+import { MatRadioButton, MatRadioChange } from '@angular/material/radio';
+
+
 
 @Component({
   selector: 'app-detail',
@@ -21,6 +25,14 @@ export class DetailPage implements OnInit {
   bandId: number = 2;
   members: BandMember[] = [];
   users: User[] = [];
+  instrumentId: number = null;
+  voiceId: number = null;
+
+  @ViewChild(IonSlides) protected slides: IonSlides;
+  @ViewChild('instrument') protected radioInstrument: MatRadioButton;
+
+  slideSelected: number = 0;
+  selectedValue: Object;
 
   sliderConfig = {
     spaceBetween: 10,
@@ -37,13 +49,7 @@ export class DetailPage implements OnInit {
     private toasService: ToastService,
     public menu: MenuController,
     public userService: UserService
-  ) { 
-
-    this.menu.get().then((menu: HTMLIonMenuElement) => {
-      this.menu.enable(false)
-    });
-
-
+  ) {
     this.bandService.listen().subscribe( (r:any) => {
       this.bandService.members(r).subscribe(res => {
         this.members = res;
@@ -57,6 +63,20 @@ export class DetailPage implements OnInit {
     this.getMembers(this.bandId);
     this.searchLike();
   }
+
+  ionViewWillEnter() {
+    this.menu.get().then((menu: HTMLIonMenuElement) => {
+      this.menu.enable(false)
+    });
+  }
+
+  ionViewDidLeave() {
+    this.menu.get().then((menu: HTMLIonMenuElement) => {
+      this.menu.enable(true)
+      menu.swipeGesture = true;
+    });
+  }
+  
 
   async load() {
     if (this.router.getCurrentNavigation().extras.state) {
@@ -109,9 +129,11 @@ export class DetailPage implements OnInit {
     alert.present();
   }
 
-  addMember(user: User, instrument: Instrument) {
+  addMember(user: User) {
+    console.log("A banda selected is: " +this.bandId);
     console.log("user selected is: " + user.email);
-    console.log("instrument selected is: " + instrument.codigo);
+    console.log("instrument selected is: " + this.instrumentId);
+    console.log("voice selected is: " + this.voiceId);
   }
 
   searchLike() {
@@ -122,4 +144,20 @@ export class DetailPage implements OnInit {
       error => { }
   }
 
+  protected radioChange($event: MatRadioChange) {
+    console.log($event.source.name, $event.value);
+    if(this.radioInstrument.checked) {
+      this.instrumentId = $event.value;
+    } else {
+      this.voiceId = $event.value;
+    }
+}
+
+  protected async slideChanged() {
+    let currentIndex = await this.slides.getActiveIndex();
+    if(this.slideSelected != currentIndex) {
+      this.slideSelected = currentIndex;
+      this.selectedValue = null;    
+    }
+  }
 }
