@@ -1,9 +1,75 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>pessoa-fisica</ion-title>
+    <ion-title>Sou Pessoa</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
+  <div class="login-form ion-padding">
+      
+    <form [formGroup]="formGroup">
+        <ion-radio-group value="membro">
+          <ion-item>
+          <ion-label>Sou membro</ion-label>
+          <ion-radio slot="start" value="1">Sou Membro</ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Não Sou membro</ion-label>
+            <ion-radio slot="start" value="0">Não Sou Membro</ion-radio>
+            </ion-item>
+        </ion-radio-group>
+        <ion-item>
+          <ion-label position="floating">Digite o código de refencia da igreja</ion-label>
+          <ion-input name="codigo"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Nome Completo</ion-label>
+          <ion-input type="text" class="form-control" name="name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Data de Nascimento</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" min="1940-01-01" max="2010-12-31" name="dateNasc"></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label>Sexo</ion-label>
+          <ion-select placeholder="Selecione um">
+            <ion-select-option value="f">Feminino</ion-select-option>
+            <ion-select-option value="m">Masculino</ion-select-option>
+          </ion-select>
+        </ion-item>
+      <ion-item>
+        <ion-label position="floating">E-mail</ion-label>
+        <ion-input type="email" class="form-control" formControlName="email" name="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Confirmar E-mail</ion-label>
+        <ion-input type="email" class="form-control" formControlName="email" name="confirmEmail"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Celular</ion-label>
+        <ion-input type="text" class="form-control" name="celular"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">CEP</ion-label>
+        <ion-input type="text" class="form-control" name="cep"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Senha</ion-label>
+        <ion-input type="password" class="form-control" formControlName="senha"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Confirmar Senha</ion-label>
+        <ion-input type="password" class="form-control" formControlName="senha"></ion-input>
+      </ion-item>
+        <ion-item>
+          <ion-label>Li e aceito os termos de uso da plataforma</ion-label>
+       <ion-checkbox name="optin" color="dark"></ion-checkbox>
+      </ion-item>
 
+      
+    </form>
+   
+    <div class="action-button ion-padding">
+      <ion-button size="large" class="signup-button" fill="outline" routerLink="/pf">Cadastro</ion-button>
+    </div>
+  </div>
 </ion-content>

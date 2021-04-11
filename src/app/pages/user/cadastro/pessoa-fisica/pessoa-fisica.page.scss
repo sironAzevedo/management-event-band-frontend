@@ -1,0 +1,18 @@
+.action-button {
+    text-align: center;
+    .login-button {
+        --background: #f9b801;
+        font-weight: bold;
+    }
+    p {
+        margin-top: 15px;
+        font-size: 1rem;
+        color: #7b7b7b;
+    }
+    .signup-button {
+        --border-color: #b4b4b4;
+        --color: #f9b801;
+        font-weight: bold;
+        width: 100%;
+    }
+}
