@@ -40,6 +40,10 @@ const routes: Routes = [
   {
     path: 'logout',
     loadChildren: () => import('./pages/user/logout/logout.module').then( m => m.LogoutPageModule)
+  },
+  {
+    path: 'event',
+    loadChildren: () => import('./pages/band/event/event.module').then( m => m.EventPageModule)
   }
  
 ];

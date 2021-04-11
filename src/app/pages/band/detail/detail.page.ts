@@ -1,3 +1,4 @@
+import { EventPage } from './../event/event.page';
 import { User } from './../../../interfaces/user';
 import { UserService } from './../../../services/user.service';
 import { ToastService } from './../../../services/toast.service';
@@ -6,7 +7,7 @@ import { BandMember } from './../../../interfaces/band-member';
 import { BandService } from './../../../services/band.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController, MenuController } from '@ionic/angular';
+import { AlertController, NavController, MenuController, ModalController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -40,7 +41,8 @@ export class DetailPage implements OnInit {
     private alertCtrl: AlertController,
     private toasService: ToastService,
     public menu: MenuController,
-    public userService: UserService
+    public userService: UserService,
+    public modalController: ModalController
   ) {
     this.bandService.listen().subscribe( (band: any) => {
       /* this.bandService.members(band).subscribe(res => {
@@ -49,7 +51,6 @@ export class DetailPage implements OnInit {
         error => { } */
         this.getMembers(band);
     });
-
   }
 
   ngOnInit() {
@@ -136,6 +137,18 @@ export class DetailPage implements OnInit {
     });
 
     alert.present();
+  }
+
+  async openEvent() {
+
+    const modal = await this.modalController.create({
+      component: EventPage,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        'bandId': this.bandId
+      }
+    });
+    return await modal.present();
   }
 
   listRepertorio(): Observable<any[]> {

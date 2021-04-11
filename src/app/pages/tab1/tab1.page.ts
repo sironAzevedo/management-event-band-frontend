@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +7,14 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  @Input() firstName: string;
+  @Input() lastName: string;
+  @Input() middleInitial: string;
+
+  constructor() {
+    console.log(this.firstName)
+    console.log(this.lastName)
+    console.log(this.middleInitial)
+  }
 
 }

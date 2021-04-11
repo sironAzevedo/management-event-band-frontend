@@ -1,4 +1,24 @@
-<app-header [titulo]="titulo" [defaultHref]="'/bands'"></app-header>
+<ion-header>
+  <ion-toolbar color="primary">
+    <div class="button-menu-header">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/bands"></ion-back-button>
+      </ion-buttons>
+      <ion-title text-capitalize> {{titulo}} </ion-title> 
+      
+        <button mat-icon-button color="primary" [matMenuTriggerFor]="menu" (click)="$event.preventDefault()" >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" id="btn-menu" xPosition="before" overlapTrigger="false">               
+          <button id="btn-delete" mat-menu-item (click)="openEvent()">
+            <mat-icon>today</mat-icon>
+            <span>Eventos</span>
+          </button>
+        </mat-menu>
+      </div>
+  </ion-toolbar>
+</ion-header>
+
 
 <ion-content [fullscreen]="true">
   <div class="searchbar">
@@ -40,7 +60,7 @@
             </ion-grid>
 
           <div class="button-menu">
-            <button  color="primary"  [matMenuTriggerFor]="menu" (click)="$event.preventDefault()" >
+            <button  color="primary" [matMenuTriggerFor]="menu" (click)="$event.preventDefault()" >
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu" id="btn-menu" xPosition="before" overlapTrigger="false">               

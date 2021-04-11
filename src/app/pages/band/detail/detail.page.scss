@@ -1,3 +1,13 @@
+.button-menu-header {
+    display: flex;
+    align-items: center;
+
+    ion-title {
+        display: flex;
+        margin-left: 2rem;
+    }
+}
+
 .searchbar {
     margin: 5px 0px 5px 0px;
 }

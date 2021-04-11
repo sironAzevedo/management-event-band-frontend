@@ -1,3 +1,4 @@
+import { MenuController } from '@ionic/angular';
 import { UserService } from './../../../services/user.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { StorageService } from './../../../services/storage.service';
@@ -21,6 +22,7 @@ export class ListPage implements OnInit {
     private storageService: StorageService,
     private userService: UserService,
     private router: Router,
+    public menu: MenuController
   ) { 
     this.email = this.storageService.getLocalUser().email;
   }
@@ -30,7 +32,14 @@ export class ListPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.loadBands();
+    this.loadBands(); 
+  }
+
+  ionViewDidLeave() {
+    this.menu.get().then((menu: HTMLIonMenuElement) => {
+      this.menu.enable(true)
+      menu.swipeGesture = true;
+    });
   }
 
   async loadBands() {
