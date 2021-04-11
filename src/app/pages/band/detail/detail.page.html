@@ -2,42 +2,16 @@
 
 <ion-content [fullscreen]="true">
   <div class="searchbar">
-    <ion-searchbar [(ngModel)]="queryText"
-                   (ionInput) = "searchLike($event)"
-                   clearInput>
-  
-  </ion-searchbar>
+    <ion-searchbar debounce="500" [(ngModel)]="queryText"
+                    (ionInput) = "searchLike($event)"
+                    clearInput>
+    
+    </ion-searchbar>
   </div>
 
-  <div class="list-members" *ngIf="users.length > 0">
-    <ion-slides [options]="sliderConfig" class="ipn-margin-top" (ionSlideDrag)="slideChanged()">
-      <ion-slide *ngFor="let item of users">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>
-              <img src="https://via.placeholder.com/150.png?text=My+photo" [alt]="item.name">
-              <span>{{ item.name }}</span>
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <mat-radio-group class="radio-group" [(ngModel)]="selectedValue" (change)="radioChange($event, item)">
-              <mat-radio-button #instrument *ngFor="let instrument of item.instruments" [value]="instrument.codigo">
-                {{instrument.name}}
-              </mat-radio-button>
-              <mat-radio-button *ngFor="let voice of item.voices" [value]="voice.codigo">
-                {{voice.name}}
-              </mat-radio-button>
-           </mat-radio-group> 
-          </ion-card-content>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
-    <ion-button (click)="addMember()" expand="full" shape="round" [disabled]="buttonDisable">
-      Associar membro
-    </ion-button>
-  </div>
+  <search-members [users]="users" [bandId]="bandId"></search-members>
 
-  <div>
+  <div class="list_members">
     <ion-list>
       <app-list-skeleton [items]="members"></app-list-skeleton>
         <ion-item *ngFor="let item of members">
@@ -77,6 +51,17 @@
             </mat-menu>
           </div>
         </ion-item>
+    </ion-list>
+  </div>
+  <div class="list-repertorio">
+    <div class="title">
+      <span>Repertório</span>
+    </div>
+    <ion-list>
+      <ion-item *ngFor="let item of repertorios">
+        <ion-label>{{item.name}}</ion-label>
+        <ion-label>{{item.autor}}</ion-label>
+      </ion-item>
     </ion-list>
   </div>
 </ion-content>

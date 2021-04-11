@@ -1,3 +1,4 @@
+import { UserService } from './../../../services/user.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { StorageService } from './../../../services/storage.service';
 import { BandService } from './../../../services/band.service';
@@ -18,6 +19,7 @@ export class ListPage implements OnInit {
   constructor(
     private bandService: BandService,
     private storageService: StorageService,
+    private userService: UserService,
     private router: Router,
   ) { 
     this.email = this.storageService.getLocalUser().email;
@@ -35,7 +37,6 @@ export class ListPage implements OnInit {
     await this.bandService.listBandByUser(this.email).subscribe(
       response => {
         this.bands = response;
-        console.log(this.bands);
       },
       error => { }
     );
@@ -43,6 +44,10 @@ export class ListPage implements OnInit {
 
   addBand() {
     
+  }
+
+  delete(band: Band) {
+
   }
 
   async detail(band: Band) {
@@ -55,8 +60,15 @@ export class ListPage implements OnInit {
     await this.router.navigate(['/bands/detail'], params);
   }
 
-  delete(band: Band) {
-
+  searchLike(band: any) {
+    let val = band.target.value;
+    if(val && val.trim() != '') {
+      this.bandService.searchLike(this.email, val).subscribe(res => {
+        this.bands = res;
+      }),
+        error => { }
+    } else {
+      this.loadBands();
+    }
   }
-
 }

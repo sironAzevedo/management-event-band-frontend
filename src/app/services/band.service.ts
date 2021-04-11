@@ -69,8 +69,8 @@ export class BandService {
     );
   }
 
-  searchLike(chave: string, name: string): Observable<Band> {
-    return this.http.get<Band>(`${API_CONFIG.baseUrl}/v1/bands/by-like?chave=${chave}&like=${name}`);
+  searchLike(email: string, name: string): Observable<Band[]> {
+    return this.http.get<Band[]>(`${API_CONFIG.baseUrl}/v1/bands/by-like?email=${email}&name=${name}`);
   }
 
   private _listners = new Subject<any>();

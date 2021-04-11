@@ -1,0 +1,27 @@
+<div class="list-members" *ngIf="users.length > 0">
+  <ion-slides [options]="sliderConfig" class="ipn-margin-top" (ionSlideDrag)="slideChanged()">
+    <ion-slide *ngFor="let item of users">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <img src="https://via.placeholder.com/150.png?text=My+photo" [alt]="item.name">
+            <span>{{ item.name }}</span>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <mat-radio-group class="radio-group" [(ngModel)]="selectedValue" (change)="radioChange($event, item)">
+            <mat-radio-button #instrument *ngFor="let instrument of item.instruments" [value]="instrument.codigo">
+              {{instrument.name}}
+            </mat-radio-button>
+            <mat-radio-button #voice *ngFor="let voice of item.voices" [value]="voice.codigo">
+              {{voice.name}}
+            </mat-radio-button>
+         </mat-radio-group> 
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+  <ion-button (click)="addMember()" expand="full" shape="round" [disabled]="buttonDisable">
+    Associar membro
+  </ion-button>
+</div>

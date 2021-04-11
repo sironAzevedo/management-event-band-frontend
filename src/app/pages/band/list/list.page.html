@@ -1,7 +1,12 @@
 <app-header [titulo]="'Bandas'" [defaultHref]="'/home'"></app-header>
 
 <ion-content fullscreen [scrollEvents]="true">
-  <ion-searchbar></ion-searchbar>
+  <ion-searchbar debounce="500" 
+                 [(ngModel)]="queryText"
+                 (ionInput) = "searchLike($event)"
+                 clearInput>
+
+  </ion-searchbar>
   <app-list-skeleton [items]="bands"></app-list-skeleton>
   <ion-list>
     <ion-item-sliding *ngFor="let item of bands">

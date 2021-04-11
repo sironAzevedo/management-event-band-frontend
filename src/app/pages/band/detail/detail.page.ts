@@ -1,4 +1,3 @@
-import { Instrument } from './../../../interfaces/instrument';
 import { User } from './../../../interfaces/user';
 import { UserService } from './../../../services/user.service';
 import { ToastService } from './../../../services/toast.service';
@@ -6,11 +5,10 @@ import { LoaderService } from './../../../services/loader.service';
 import { BandMember } from './../../../interfaces/band-member';
 import { BandService } from './../../../services/band.service';
 import { Router } from '@angular/router';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, MenuController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
-import {IonSlides} from '@ionic/angular';
-import { MatRadioButton, MatRadioChange } from '@angular/material/radio';
+import { Observable, of } from 'rxjs';
 
 
 
@@ -24,20 +22,9 @@ export class DetailPage implements OnInit {
   titulo: string = 'Nome da Banda';
   bandId: number = 2;
   members: BandMember[] = [];
+  users: User[] = [];
 
-  users: User[] = [];  
-  userSelected: string = null;
-  instrumentSelected: any = null;
-  voiceSelected: any = null;
-  buttonDisable: boolean = true;
-  slideSelected: number = 0;
-  selectedValue: Object;
-  queryText: string;
-
-  @ViewChild(IonSlides) protected slides: IonSlides;
-  @ViewChild('instrument') protected radioInstrument: MatRadioButton;
-
-  
+  repertorios: Array<{name: string, autor: string}>;
 
   sliderConfig = {
     spaceBetween: 10,
@@ -55,21 +42,19 @@ export class DetailPage implements OnInit {
     public menu: MenuController,
     public userService: UserService
   ) {
-
-    this.queryText = '';
-
-    this.bandService.listen().subscribe( (r:any) => {
-      this.bandService.members(r).subscribe(res => {
+    this.bandService.listen().subscribe( (band: any) => {
+      /* this.bandService.members(band).subscribe(res => {
         this.members = res;
       }),
-        error => { }
+        error => { } */
+        this.getMembers(band);
     });
+
   }
 
   ngOnInit() {
     //this.load();
     this.getMembers(this.bandId);
-    /* this.searchLike(); */
   }
 
   ionViewWillEnter() {
@@ -100,8 +85,11 @@ export class DetailPage implements OnInit {
 
   async getMembers(bandId: number) {
     this.bandService.members(bandId).subscribe(res => {
-      console.log(res);
       this.members = res;
+
+      this.listRepertorio().subscribe(res => {
+        this.repertorios = res;
+      });
     }),
       error => { }
   }
@@ -117,43 +105,6 @@ export class DetailPage implements OnInit {
     } else {
       this.users = [];
     }
-  }
-
-  async addMember() {
-    const alert = await this.alertCtrl.create({       
-      message: 'Deseja adiconar este membro como lider da banda?',
-      buttons: [
-        {
-          text: 'Não',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            this.associateMember(false);
-          }
-        },
-        {
-          text: 'Sim',
-          handler: () => {
-            this.associateMember(true);
-          }
-        }
-      ]
-    });
-
-    alert.present();
-  }
-
-  associateMember(leader: boolean) {
-    this.ionLoader.showLoader();
-    this.bandService.associateMember(this.bandId, this.userSelected, leader, this.instrumentSelected, this.voiceSelected)
-    .pipe(finalize(() => this.ionLoader.hideLoader()))
-    .subscribe(() => {
-      let msg = 'Membro desassociado com sucesso';
-      this.toasService.showToast(msg, 2000, 'success').then(() => {               
-        this.bandService.filter(this.bandId);
-      });
-    }),
-      error => { }
   }
 
   async deletMember(member: BandMember) {
@@ -187,25 +138,20 @@ export class DetailPage implements OnInit {
     alert.present();
   }
 
-  protected radioChange($event: MatRadioChange, user: User) {
-    this.buttonDisable = false;
-    this.userSelected = user.email;
-    if(this.radioInstrument.checked) {
-      this.instrumentSelected = $event.value;
-    } else {
-      this.voiceSelected = $event.value;
-    }
-}
-
-  protected async slideChanged() {
-    let currentIndex = await this.slides.getActiveIndex();
-    if(this.slideSelected != currentIndex) {
-      this.slideSelected = currentIndex;
-      this.selectedValue = null; 
-      this.instrumentSelected = null;
-      this.voiceSelected = null;
-      this.userSelected = null;
-      this.buttonDisable = true;   
-    }
+  listRepertorio(): Observable<any[]> {
+    const items = [
+      {
+        name: 'Musica - 01', autor: 'Autor - 01'
+      },
+      {
+        name: 'Musica - 02', autor: 'Autor - 02'
+      },
+      {
+        name: 'Musica - 03', autor: 'Autor - 03'
+      }
+    ]
+    return of(items);    
   }
+
+
 }
