@@ -1,3 +1,4 @@
+import { SheredComponentModule } from './../../../components/components.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +14,8 @@ import { PessoaJuridicaPage } from './pessoa-juridica.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    PessoaJuridicaPageRoutingModule
+    PessoaJuridicaPageRoutingModule,
+    SheredComponentModule
   ],
   declarations: [PessoaJuridicaPage]
 })

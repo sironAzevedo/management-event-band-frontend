@@ -1,5 +1,7 @@
+import { EventService } from './../../../services/event.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, NavParams } from '@ionic/angular';
+import { Event } from 'src/app/interfaces/Event';
 
 @Component({
   selector: 'app-event',
@@ -9,19 +11,33 @@ import { ModalController, NavParams } from '@ionic/angular';
 export class EventPage implements OnInit {
 
   bandId: any;
+  events: Event[] = [];
 
   constructor(
     private navParams: NavParams,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private eventService: EventService
     ) {
     console.log('o id da banda é: ' + this.navParams.data.bandId);
+    this.bandId = +this.navParams.data.bandId;
    }
 
-  ngOnInit() {
+  ngOnInit() {  
+    this.loadEvents();
   }
 
   dismissModal() {
     this.modalController.dismiss(); 
+  }
+
+  async loadEvents() {
+    await this.eventService.findByBand(this.bandId).subscribe(
+      response => {
+        this.events = response;
+        console.log(this.events);
+      },
+      error => { }
+    );
   }
 
 }

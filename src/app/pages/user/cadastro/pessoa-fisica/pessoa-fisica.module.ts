@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { PessoaFisicaPageRoutingModule } from './pessoa-fisica-routing.module';
 
 import { PessoaFisicaPage } from './pessoa-fisica.page';
+import { SheredComponentModule } from 'src/app/pages/components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { PessoaFisicaPage } from './pessoa-fisica.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    PessoaFisicaPageRoutingModule
+    PessoaFisicaPageRoutingModule,
+    SheredComponentModule
   ],
   declarations: [PessoaFisicaPage]
 })
