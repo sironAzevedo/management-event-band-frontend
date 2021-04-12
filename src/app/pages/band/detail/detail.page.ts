@@ -1,3 +1,4 @@
+import { EventService } from './../../../services/event.service';
 import { EventPage } from './../event/event.page';
 import { User } from './../../../interfaces/user';
 import { UserService } from './../../../services/user.service';
@@ -10,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, MenuController, ModalController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { Event } from 'src/app/interfaces/Event';
 
 
 
@@ -24,6 +26,7 @@ export class DetailPage implements OnInit {
   bandId: number = 2;
   members: BandMember[] = [];
   users: User[] = [];
+  events: Event[] = [];
 
   repertorios: Array<{name: string, autor: string}>;
 
@@ -42,7 +45,8 @@ export class DetailPage implements OnInit {
     private toasService: ToastService,
     public menu: MenuController,
     public userService: UserService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private eventService: EventService
   ) {
     this.bandService.listen().subscribe( (band: any) => {
       /* this.bandService.members(band).subscribe(res => {
@@ -56,6 +60,7 @@ export class DetailPage implements OnInit {
   ngOnInit() {
     //this.load();
     this.getMembers(this.bandId);
+    this.loadEvents();
   }
 
   ionViewWillEnter() {
@@ -70,7 +75,6 @@ export class DetailPage implements OnInit {
       menu.swipeGesture = true;
     });
   }
-  
 
   async load() {
     if (this.router.getCurrentNavigation().extras.state) {
@@ -78,6 +82,7 @@ export class DetailPage implements OnInit {
         this.bandId = this.router.getCurrentNavigation().extras.state.band;
         this.titulo = this.router.getCurrentNavigation().extras.state.name;
         this.getMembers(this.router.getCurrentNavigation().extras.state.band);
+        /* this.loadEvents(); */
       }
     } else {
       await this.routerNav.navigateBack('/bands');
@@ -164,6 +169,15 @@ export class DetailPage implements OnInit {
       }
     ]
     return of(items);    
+  }
+
+  loadEvents() {
+    this.eventService.findByBand(this.bandId).subscribe(
+      response => {
+        this.events = response;
+      },
+      error => { }
+    );
   }
 
 

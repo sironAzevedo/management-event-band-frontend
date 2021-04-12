@@ -1,10 +1,13 @@
-import { MenuController } from '@ionic/angular';
+import { ToastService } from './../../../services/toast.service';
+import { LoaderService } from './../../../services/loader.service';
+import { MenuController, AlertController } from '@ionic/angular';
 import { UserService } from './../../../services/user.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { StorageService } from './../../../services/storage.service';
 import { BandService } from './../../../services/band.service';
 import { Component, OnInit } from '@angular/core';
 import { Band } from 'src/app/interfaces/band';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list',
@@ -22,7 +25,10 @@ export class ListPage implements OnInit {
     private storageService: StorageService,
     private userService: UserService,
     private router: Router,
-    public menu: MenuController
+    public menu: MenuController,
+    private alertCtrl: AlertController,
+    private ionLoader: LoaderService,
+    private toasService: ToastService,
   ) { 
     this.email = this.storageService.getLocalUser().email;
   }
@@ -55,8 +61,35 @@ export class ListPage implements OnInit {
     
   }
 
-  delete(band: Band) {
+  async delete(band: Band) {
+    const alert = await this.alertCtrl.create({
+      header: 'Deletar?',
+      message: 'Deseja realmente excluir essa banda?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Excluir',
+          handler: () => {
+            this.ionLoader.showLoader();
+            this.bandService.delete(band.codigo)
+            .pipe(finalize(() => this.ionLoader.hideLoader()))
+            .subscribe(() => {
+              let msg = 'Banda excluida com sucesso';
+              this.toasService.showToast(msg, 2000, 'success').then(() => {               
+                /* this.bandService.filter(this.bandId); */
+                this.loadBands();
+              });
+            }),
+            error => { }
+          }
+        }
+      ]
+    });
 
+    alert.present();
   }
 
   async detail(band: Band) {

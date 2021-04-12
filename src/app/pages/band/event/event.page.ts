@@ -18,7 +18,6 @@ export class EventPage implements OnInit {
     private modalController: ModalController,
     private eventService: EventService
     ) {
-    console.log('o id da banda é: ' + this.navParams.data.bandId);
     this.bandId = +this.navParams.data.bandId;
    }
 

@@ -6,11 +6,11 @@
       </ion-buttons>
       <ion-title text-capitalize> {{titulo}} </ion-title> 
       
-        <button mat-icon-button color="primary" [matMenuTriggerFor]="menu" (click)="$event.preventDefault()" >
+        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.preventDefault()" >
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu" id="btn-menu" xPosition="before" overlapTrigger="false">               
-          <button id="btn-delete" mat-menu-item (click)="openEvent()">
+          <button id="btn-delete" mat-menu-item (click)="openEvent()" [disabled]="!(events.length > 0)">
             <mat-icon>today</mat-icon>
             <span>Eventos</span>
           </button>
