@@ -1,24 +1,30 @@
 <ion-header>
-  <ion-toolbar color="primary">    
+  <ion-toolbar color="primary">
     <ion-buttons slot="end">
       <ion-button (click)="dismissModal()">Close</ion-button>
     </ion-buttons>
-    <ion-title text-capitalize> Eventos </ion-title> 
+    <ion-title text-capitalize> Eventos </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of events">
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>            
-            <span>{{ item.eventDate }}</span>
-          </ion-card-title>
-        </ion-card-header>
-      </ion-card>
-    </ion-item>
+  <ion-list class="list-event">
+    <ion-card *ngFor="let item of events">
+      <ion-card-header>
+        <ion-item>
+          <ion-icon name="calendar-number-outline"></ion-icon>       
+          <ion-label>{{ item.eventDate }}</ion-label>
+        </ion-item>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <p>{{ item.description }}</p>
+        <p>
+          <span class="material-icons">location_on</span>
+          {{ item.address }}
+        </p>
+        
+      </ion-card-content>
+    </ion-card>
   </ion-list>
-
-
 </ion-content>

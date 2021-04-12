@@ -34,7 +34,6 @@ export class EventPage implements OnInit {
     await this.eventService.findByBand(this.bandId).subscribe(
       response => {
         this.events = response;
-        console.log(this.events);
       },
       error => { }
     );
