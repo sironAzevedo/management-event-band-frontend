@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+    <ion-title text-capitalize> Forgot </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <div class="login-form">  
+    <div class="form">
+      <form [formGroup]="formGroup">
+        <ion-item>
+          <ion-icon slot="start" name="mail-outline"></ion-icon>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" class="form-control" formControlName="email"></ion-input>
+        </ion-item>
+      </form>
+    </div> 
+    <div class="action-button"> 
+      <ion-button (click)="enviar()" size="large" class="login-button" [disabled]="!formGroup.valid || addCan">Enviar</ion-button>     
+    </div>
+  </div>
+  
+  
+</ion-content>

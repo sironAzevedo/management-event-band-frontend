@@ -1,8 +1,9 @@
+import { ForgotComponent } from './../user/forgot/forgot.component';
 import { LoaderService } from './../../services/loader.service';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoadingController, MenuController, NavController } from '@ionic/angular';
+import { LoadingController, MenuController, ModalController, NavController } from '@ionic/angular';
 import { Credential } from 'src/app/interfaces/credential';
 import { finalize } from 'rxjs/operators';
 
@@ -23,7 +24,8 @@ export class LoginPage implements OnInit {
     public router: NavController,
     public formBuilder: FormBuilder,
     private authService: AuthService,
-    private ionLoader: LoaderService
+    private ionLoader: LoaderService,
+    public modalController: ModalController,
   ) { }
 
   ngOnInit() {
@@ -95,5 +97,13 @@ export class LoginPage implements OnInit {
 
   get isFieldInValid() {
     return this.isInValid;
+  }
+
+  async forgot() {
+    const modal = await this.modalController.create({
+      component: ForgotComponent,
+      cssClass: 'my-custom-class',
+    });
+    return await modal.present();
   }
 }

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { User } from '../interfaces/user';
 import { retry, catchError } from 'rxjs/operators';
+import { Forgot } from '../interfaces/forgot';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,9 @@ export class UserService {
 
   searchLike(like: string): Observable<User[]> {
     return this.http.get<User[]>(`${API_CONFIG.baseUrl}/v1/users/by-like?like=${like}`);
+  }
+
+  forgot(forgot: Forgot): Observable<any> {
+    return this.http.post<any>(`${API_CONFIG.baseUrl}/v1/forgot`, forgot);
   }
 }

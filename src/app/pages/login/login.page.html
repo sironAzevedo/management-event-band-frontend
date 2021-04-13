@@ -22,12 +22,16 @@
         </ion-item>
       </form>
 
-      <div class="action-button ion-padding">
-        <ion-button (click)="login()" size="large" class="login-button" [disabled]="!formGroup.valid || addCan">Login</ion-button>        
+      <div class="action-button"> 
+        <ion-button (click)="login()" size="large" class="login-button" [disabled]="!formGroup.valid || addCan">Login</ion-button>     
       </div>
 
       <div class="forgot">
-        <p>Forgot password?</p>
+        <span>
+          Forgot password?
+          <ion-note slot="primary" (click)="forgot()" color="primary">Click aqui
+          </ion-note>
+        </span>
       </div>
     </div>
   </div>

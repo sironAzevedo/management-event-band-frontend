@@ -1,0 +1,34 @@
+ion-content {
+    .login-form {
+        width: 100%;        
+        background: rgb(104 129 132 / 66%);
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        .form {
+            margin-right: 4%;
+            margin-left: 5%;
+            margin-top: 25%;
+            padding: 21px 0px 6px 0px;
+
+            ion-item {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        .action-button {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0px;
+            padding: 0px 3px 16px 8px;
+
+            ion-button {
+                margin-right: 4%;
+                margin-top: 2%;
+                font-weight: 600;
+            }
+        }
+    }
+}
