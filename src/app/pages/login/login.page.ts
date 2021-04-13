@@ -16,6 +16,7 @@ export class LoginPage implements OnInit {
   formGroup: FormGroup;
   isValid: boolean;
   isInValid: boolean;
+  addCan: boolean = false;
 
   constructor(
     public menu: MenuController,
@@ -42,14 +43,15 @@ export class LoginPage implements OnInit {
     });
   }
 
-  async login() {
- 
+  async login() {    
+    
+    this.addCan = true;
+    await this.ionLoader.showLoader();    
     const user: Credential = {
       email: this.formGroup.value.email,
       password: this.formGroup.value.senha
     }
 
-    await this.ionLoader.showLoader();    
     this.authService.authenticate(user)
       .pipe(finalize(() => this.ionLoader.hideLoader()))
       .subscribe(
@@ -57,7 +59,7 @@ export class LoginPage implements OnInit {
           this.router.navigateRoot('/home');
         },
         error => { 
-          //this.addCan = false;
+          this.addCan = false;
           console.log(error)
         }
       );

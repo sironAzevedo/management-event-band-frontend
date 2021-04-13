@@ -18,67 +18,59 @@ ion-content {
     border-bottom-right-radius: 46px;
 
     .heading {
-        margin-top: 10px;
+        padding: 0px;
+
         h1 {
+            display: flex;
+            justify-content: center;
             font-size: 1.6rem;
             font-weight: bolder;
+            margin-top: 1rem;
         }
+
         p {
-            margin-top: 10px;
-            font-size: 1rem;
-            color: #7b7b7b;
+            display: flex;
+            justify-content: center;
         }
     }
-    .login-form {
-        .form-input {
-            position: relative;
-            margin-bottom: 10px;
-            ion-item::part(native) {
-                padding-left: 0;
-            }
 
-            ion-icon {
-                position: absolute;
-                top: 37px;
-                z-index: 2;
-                font-size: 1.2rem;
-                left: 5px;
-            }
+    .btn {
+        display: flex;
+        justify-content: center;
+    } 
     
-            ion-label {
-                position: absolute;
-                margin-left: 35px;
-                font-weight: bolder;
-                font-size: 0.8rem;
-                top: 3px;
+    .login-form {
+        margin-top: 10px;
+        padding: 0px 10%;
+
+        ion-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .action-button {
+            text-align: center;
+            .login-button {
+                --background: #f9b801;
+                width: 100%;
+                font-weight: bold;
             }
-    
-            ion-input {
-                font-size: 0.9rem;
-                --padding-start: 36px;
-                --padding-top: 36px;
+            p {
+                margin-top: 15px;
+                font-size: 1rem;
                 color: #7b7b7b;
             }
+            .signup-button {
+                --border-color: #b4b4b4;
+                --color: #000000;
+                font-weight: bold;
+                width: 100%;
+            }
         }
-    }
 
-    .action-button {
-        text-align: center;
-        .login-button {
-            --background: #f9b801;
-            width: 100%;
-            font-weight: bold;
-        }
-        p {
-            margin-top: 15px;
-            font-size: 1rem;
-            color: #7b7b7b;
-        }
-        .signup-button {
-            --border-color: #b4b4b4;
-            --color: #000000;
-            font-weight: bold;
-            width: 100%;
+        .forgot {
+            display: flex;
+            align-items: center;
         }
     }
 }

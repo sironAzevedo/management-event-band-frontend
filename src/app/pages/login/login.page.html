@@ -1,29 +1,33 @@
 <ion-content>
-  <div class="login-section ion-padding">
-    <div class="heading ion-padding">
+  <div class="login-section">
+    <div class="heading">
       <h1>Bem vindo GEB</h1>
-      <p>Você é novo aqui ? Cadastre-se é simples!</p>
-      <div>
+      <p>Você é novo aqui ? Cadastre-se é simples!</p>      
+    </div>
+    <div class="btn">
       <ion-button size="medium" class="signup-button" fill="outline" routerLink="/pj">Sou Igreja</ion-button>
       <ion-button size="medium" class="signup-button" fill="outline" routerLink="/pf">Sou Pessoa</ion-button>
     </div>
-    </div>
-    <div class="login-form ion-padding">
-      
+    <div class="login-form">      
       <form [formGroup]="formGroup">
         <ion-item>
-          <ion-label position="stacked">Email</ion-label>
-          <ion-input type="email" class="form-control" formControlName="email" name="email" value="ibmalphaville@email.com"></ion-input>
+          <ion-icon slot="start" name="mail-outline"></ion-icon>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" class="form-control" formControlName="email"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="stacked">Senha</ion-label>
-          <ion-input type="password" class="form-control" formControlName="senha" value="123456"></ion-input>
+          <ion-icon  slot="start" name="lock-closed-outline"></ion-icon>
+          <ion-label position="floating">Senha</ion-label>
+          <ion-input type="password" class="form-control" formControlName="senha"></ion-input>
         </ion-item>
       </form>
-     
+
       <div class="action-button ion-padding">
-        <ion-button (click)="login()" size="large" class="login-button">Login</ion-button>
-        <p>Forgot password ?</p>
+        <ion-button (click)="login()" size="large" class="login-button" [disabled]="!formGroup.valid || addCan">Login</ion-button>        
+      </div>
+
+      <div class="forgot">
+        <p>Forgot password?</p>
       </div>
     </div>
   </div>
