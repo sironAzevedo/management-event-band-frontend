@@ -1,3 +1,4 @@
+import { AuthGuardService } from './../../services/auth-guard.service';
 import { ProfilePageModule } from './../user/profile/profile.module';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -20,11 +21,13 @@ const routes: Routes = [
       },
        {
         path: 'bands',
-        loadChildren: () => import('../band/list/list.module').then(m => m.ListPageModule)
+        loadChildren: () => import('../band/list/list.module').then(m => m.ListPageModule),
+        canActivate: [AuthGuardService]
       },
       {
         path: 'profile',
-        loadChildren: () => import('../user/profile/profile.module').then(m => m.ProfilePageModule)
+        loadChildren: () => import('../user/profile/profile.module').then(m => m.ProfilePageModule),
+        canActivate: [AuthGuardService]
       }      
     ]
   },

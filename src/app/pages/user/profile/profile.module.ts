@@ -1,7 +1,8 @@
+import { SheredComponentModule } from 'src/app/pages/components/components.module';
 import { HeaderPage } from './../../components/header/header.page';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -14,8 +15,9 @@ import { ProfilePage } from './profile.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfilePageRoutingModule
+    ProfilePageRoutingModule,
+    SheredComponentModule
   ],
-  declarations: [ProfilePage, HeaderPage]
+  declarations: [ProfilePage]
 })
 export class ProfilePageModule {}

@@ -16,4 +16,28 @@
 
 <ion-content>
 
+  <div class="photo">
+    <img src="https://via.placeholder.com/150.png?text=My+photo">
+  </div>
+
+  <div class="style-form">
+    <form [formGroup]="formGroup">
+      <mat-form-field>
+          <input matInput id="name" formControlName="name" placeholder="Nome">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput id="email" formControlName="email" placeholder="Email">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput id="phone" formControlName="phone" placeholder="Phone">
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="btn-style"> 
+    <button mat-raised-button id="update-btn-save" (click)="update()" color="primary" [disabled]="!formGroup.valid || addCan">
+      Atualizar
+    </button>
+  </div>
 </ion-content>
