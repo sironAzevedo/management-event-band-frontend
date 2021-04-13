@@ -52,22 +52,9 @@ export class SearchMembersComponent implements OnInit {
 
   ngOnInit() {}
 
-  searchLike(user: any) {
-    let val = user.target.value;
-    if(val && val.trim() != '') {
-      this.userService.searchLike(val).subscribe(res => {
-        console.log(res);
-        this.users = res;
-      }),
-        error => { }
-    } else {
-      this.users = [];
-    }
-  }
-
   async addMember() {
     const alert = await this.alertCtrl.create({       
-      message: 'Deseja adiconar este membro como lider da banda?',
+      message: 'Deseja adicionar este membro como lider da banda?',
       buttons: [
         {
           text: 'Não',
@@ -86,7 +73,11 @@ export class SearchMembersComponent implements OnInit {
       ]
     });
 
-    alert.present();
+    await alert.present();
+    await alert.onDidDismiss().then(() => {
+      this.bandService.filterBool(true);
+      this.cleanField();
+    });
   }
 
   associateMember(leader: boolean) {
@@ -94,11 +85,8 @@ export class SearchMembersComponent implements OnInit {
     this.bandService.associateMember(this.bandId, this.userSelected, leader, this.instrumentSelected, this.voiceSelected)
     .pipe(finalize(() => this.ionLoader.hideLoader()))
     .subscribe(() => {
-      let msg = 'Membro desassociado com sucesso';
-      this.toasService.showToast(msg, 2000, 'success').then(() => {               
-        this.bandService.filter(this.bandId);
-        this.cleanField();
-      });
+      let msg = 'Membro associado com sucesso';
+      this.toasService.showToast(msg, 2000, 'success');
     }),
       error => { }
   }

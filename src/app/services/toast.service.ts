@@ -20,7 +20,7 @@ export class ToastService {
   }
 
   async dismissToast() {
-    return this.toastCtrl.dismiss();
+    return await this.toastCtrl.dismiss();
   }
 
 

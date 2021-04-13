@@ -1,3 +1,4 @@
+import { Band } from './../../../interfaces/band';
 import { ToastService } from './../../../services/toast.service';
 import { LoaderService } from './../../../services/loader.service';
 import { MenuController, AlertController } from '@ionic/angular';
@@ -6,8 +7,9 @@ import { NavigationExtras, Router } from '@angular/router';
 import { StorageService } from './../../../services/storage.service';
 import { BandService } from './../../../services/band.service';
 import { Component, OnInit } from '@angular/core';
-import { Band } from 'src/app/interfaces/band';
 import { finalize } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateBandComponent } from '../create/create.component';
 
 @Component({
   selector: 'app-list',
@@ -29,8 +31,15 @@ export class ListPage implements OnInit {
     private alertCtrl: AlertController,
     private ionLoader: LoaderService,
     private toasService: ToastService,
+    public dialog: MatDialog
   ) { 
     this.email = this.storageService.getLocalUser().email;
+
+    this.bandService.listen().subscribe( (res:any) => {
+      if(res) {
+        this.loadBands();
+      }
+    })
   }
 
   ngOnInit() {
@@ -58,7 +67,21 @@ export class ListPage implements OnInit {
   }
 
   addBand() {
-    
+    this.userService.findByEmail(this.email).subscribe(
+      response => {
+        const chave = response.chavePj;
+
+        const dialogRef = this.dialog.open(CreateBandComponent, {
+          width: '300px',
+          height: '300px',
+          panelClass: 'custom-modalbox',
+          data: {
+            chave: chave
+          }
+        });
+      },
+      error => { }
+    );
   }
 
   async delete(band: Band) {
@@ -78,10 +101,7 @@ export class ListPage implements OnInit {
             .pipe(finalize(() => this.ionLoader.hideLoader()))
             .subscribe(() => {
               let msg = 'Banda excluida com sucesso';
-              this.toasService.showToast(msg, 2000, 'success').then(() => {               
-                /* this.bandService.filter(this.bandId); */
-                this.loadBands();
-              });
+              this.toasService.showToast(msg, 2000, 'success');
             }),
             error => { }
           }
@@ -89,7 +109,10 @@ export class ListPage implements OnInit {
       ]
     });
 
-    alert.present();
+    await alert.present();
+    await alert.onDidDismiss().then(() => {
+      //this.bandService.filterBool(true);
+    });
   }
 
   async detail(band: Band) {
@@ -99,7 +122,7 @@ export class ListPage implements OnInit {
         name: band.name
       }
     };
-    await this.router.navigate(['/bands/detail'], params);
+    await this.router.navigate(['/home/bands/detail'], params);
   }
 
   searchLike(band: any) {

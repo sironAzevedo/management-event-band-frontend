@@ -1,0 +1,22 @@
+<div class="new-band">
+  <div class="header">
+    <span>Nova Banda</span>
+  </div>
+  <mat-divider></mat-divider>
+
+  <div class="form">
+    <form [formGroup]="formGroup">
+      <mat-form-field>
+          <input matInput id="nameBand" formControlName="nameBand" placeholder="Nome da banda" required>
+      </mat-form-field>
+    </form>
+
+    <div class="btn-style">
+      <mat-divider></mat-divider>
+      <button mat-raised-button id="create-btn-cancel" mat-dialog-close>Cancelar</button>
+      <button mat-raised-button id="create-btn-save" (click)="create()" color="primary" [disabled]="!formGroup.valid || addCan">
+        Salvar
+      </button>
+    </div>
+  </div>
+</div>

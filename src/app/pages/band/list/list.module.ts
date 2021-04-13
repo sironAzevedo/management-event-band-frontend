@@ -10,6 +10,7 @@ import { ListPageRoutingModule } from './list-routing.module';
 
 import { ListPage } from './list.page';
 import { SheredComponentModule } from '../../components/components.module';
+import { CreateBandComponent } from '../create/create.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ import { SheredComponentModule } from '../../components/components.module';
     ListPageRoutingModule,
     SheredComponentModule
   ],
-  declarations: [ListPage]
+  declarations: [ListPage, CreateBandComponent]
 })
 export class ListPageModule {}

@@ -7,8 +7,8 @@ import { LoaderService } from './../../../services/loader.service';
 import { BandMember } from './../../../interfaces/band-member';
 import { BandService } from './../../../services/band.service';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController, MenuController, ModalController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, NavController, MenuController, ModalController, IonSearchbar } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Event } from 'src/app/interfaces/Event';
@@ -27,6 +27,8 @@ export class DetailPage implements OnInit {
   members: BandMember[] = [];
   users: User[] = [];
   events: Event[] = [];
+
+  @ViewChild(IonSearchbar) search: IonSearchbar;
 
   repertorios: Array<{name: string, autor: string}>;
 
@@ -48,19 +50,22 @@ export class DetailPage implements OnInit {
     public modalController: ModalController,
     private eventService: EventService
   ) {
-    this.bandService.listen().subscribe( (band: any) => {
-      /* this.bandService.members(band).subscribe(res => {
-        this.members = res;
-      }),
-        error => { } */
-        this.getMembers(band);
-    });
+
+    this.bandService.listen().subscribe( (res:any) => {
+      if(res) {
+        this.getMembers(this.bandId);
+
+          if(this.search.value != "") {
+            this.search.value = "";
+            this.users = [];
+          }
+      }
+    })
   }
 
   ngOnInit() {
-    //this.load();
-    this.getMembers(this.bandId);
-    this.loadEvents();
+    this.load();
+    //this.getMembers(this.bandId);
   }
 
   ionViewWillEnter() {
@@ -82,17 +87,16 @@ export class DetailPage implements OnInit {
         this.bandId = this.router.getCurrentNavigation().extras.state.band;
         this.titulo = this.router.getCurrentNavigation().extras.state.name;
         this.getMembers(this.router.getCurrentNavigation().extras.state.band);
-        /* this.loadEvents(); */
+        this.loadEvents();
       }
     } else {
       await this.routerNav.navigateBack('/bands');
     }
   }
 
-  async getMembers(bandId: number) {
+  getMembers(bandId: number) {
     this.bandService.members(bandId).subscribe(res => {
       this.members = res;
-
       this.listRepertorio().subscribe(res => {
         this.repertorios = res;
       });
@@ -104,7 +108,6 @@ export class DetailPage implements OnInit {
     let val = user.target.value;
     if(val && val.trim() != '') {
       this.userService.searchLike(val).subscribe(res => {
-        console.log(res);
         this.users = res;
       }),
         error => { }
@@ -130,10 +133,7 @@ export class DetailPage implements OnInit {
             .pipe(finalize(() => this.ionLoader.hideLoader()))
             .subscribe(() => {
               let msg = 'Membro associado com sucesso';
-              this.toasService.showToast(msg, 2000, 'success').then(() => {               
-                /* this.bandService.filter(this.bandId); */
-                this.getMembers(this.bandId);
-              });
+              this.toasService.showToast(msg, 2000, 'success');
             }),
             error => { }
           }
@@ -141,7 +141,10 @@ export class DetailPage implements OnInit {
       ]
     });
 
-    alert.present();
+    await alert.present();
+    await alert.onDidDismiss().then(() => {
+      this.bandService.filterBool(true);
+    });
   }
 
   async openEvent() {

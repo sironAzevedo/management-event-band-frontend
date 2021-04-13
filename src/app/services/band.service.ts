@@ -81,4 +81,8 @@ export class BandService {
   filter(value: number) {
     this._listners.next(value);
   }
+
+  filterBool(value: boolean) {
+    this._listners.next(value);
+  }
 }

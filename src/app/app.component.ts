@@ -12,7 +12,7 @@ export class AppComponent {
   profileImage;
 
   public appPages = [
-    {
+    /* {
       title: 'Bandas',
       url: '/bands',
       icon: 'radio-outline'
@@ -21,7 +21,7 @@ export class AppComponent {
       title: 'Profile',
       url: '/profile',
       icon: 'person-outline'
-    },
+    }, */
     {
       title: 'Logout',
       url: '/logout',

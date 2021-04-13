@@ -1,3 +1,4 @@
+import { ProfilePageModule } from './../user/profile/profile.module';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -18,12 +19,12 @@ const routes: Routes = [
         loadChildren: () => import('../feed/feed.module').then( m => m.FeedPageModule)
       },
        {
-        path: 'tab1',
-        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+        path: 'bands',
+        loadChildren: () => import('../band/list/list.module').then(m => m.ListPageModule)
       },
       {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+        path: 'profile',
+        loadChildren: () => import('../user/profile/profile.module').then(m => m.ProfilePageModule)
       }      
     ]
   },

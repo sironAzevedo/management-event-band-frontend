@@ -1,0 +1,37 @@
+
+.new-band {
+    padding: 0px;
+
+    .header {
+        display: flex;
+        justify-content: center;
+        padding: 15px 0px 15px;
+
+        span {
+            font-size: 2rem;
+            font-weight: 500;
+        }
+    }
+
+    .form {
+        padding: 9px;
+
+        form {
+            margin-top: 35px;
+            mat-form-field {
+                display: contents;
+            }
+
+        }
+
+        .btn-style {
+            margin-top: 25%;
+            display: flex;
+            justify-content: space-around;
+
+            button {
+                width: 45%;
+            }
+        }        
+    }
+}

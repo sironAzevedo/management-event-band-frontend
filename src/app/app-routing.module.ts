@@ -19,11 +19,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
     canActivate: [AuthGuardService]
   },
-  {
+  /* {
     path: 'bands',
     loadChildren: () => import('./pages/band/list/list.module').then( m => m.ListPageModule),
     canActivate: [AuthGuardService]
-  },  
+  }, */  
   {
     path: 'pf',
     loadChildren: () => import('./pages/user/cadastro/pessoa-fisica/pessoa-fisica.module').then( m => m.PessoaFisicaPageModule)
@@ -32,11 +32,11 @@ const routes: Routes = [
     path: 'pj',
     loadChildren: () => import('./pages/user/cadastro/pessoa-juridica/pessoa-juridica.module').then( m => m.PessoaJuridicaPageModule)
   },
-  {
+  /* {
     path: 'profile',
     loadChildren: () => import('./pages/user/profile/profile.module').then( m => m.ProfilePageModule),
     canActivate: [AuthGuardService]
-  },
+  }, */
   {
     path: 'logout',
     loadChildren: () => import('./pages/user/logout/logout.module').then( m => m.LogoutPageModule)

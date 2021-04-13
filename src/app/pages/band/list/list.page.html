@@ -1,4 +1,13 @@
-<app-header [titulo]="'Bandas'" [defaultHref]="'/home'"></app-header>
+<!-- <app-header [titulo]="'Bandas'" [defaultHref]="'/home'"></app-header> -->
+
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Bands</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content fullscreen [scrollEvents]="true">
   <ion-searchbar debounce="500" 
@@ -37,7 +46,7 @@
   </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" right #fab>
-    <ion-fab-button (click)="addConta()">
+    <ion-fab-button (click)="addBand()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
