@@ -1,8 +1,11 @@
+import { ToastService } from './../../../services/toast.service';
 import { LoaderService } from './../../../services/loader.service';
 import { UserService } from './../../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Forgot } from 'src/app/interfaces/forgot';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-forgot',
@@ -19,6 +22,7 @@ export class ForgotComponent implements OnInit {
     private userService: UserService,
     private ionLoader: LoaderService,
     private modalController: ModalController,
+    private toasService: ToastService,
   ) { }
 
   ngOnInit() {
@@ -38,9 +42,27 @@ export class ForgotComponent implements OnInit {
     });
   }
 
-  enviar() {
-    let email = this.formGroup.value.email;
-    console.log(email);
+  async enviar() {
+    this.addCan = true;
+    await this.ionLoader.showLoader();
+
+    const forgot: Forgot = {
+      email: this.formGroup.value.email
+    }
+
+    this.userService.forgot(forgot)
+    .pipe(finalize(() => this.ionLoader.hideLoader()))
+    .subscribe(
+      () => {
+        let msg = 'Email enviado com sucesso';
+        this.toasService.showToast(msg, 2000, 'success').then(() => {               
+          this.dismissModal();
+        });
+      },
+      error => { 
+        this.addCan = false;
+      }
+    );
   }
 
 }
